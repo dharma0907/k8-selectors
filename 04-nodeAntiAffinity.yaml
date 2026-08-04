@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: with-node-Anti-affinity
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution: # this is used to force the pod, hard rule, if hard rule pass then check for soft rule, if hard rule fails then pod will not be scheduled
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: topology.kubernetes.io/zone
+            operator: In
+            values:
+            - us-east-1d
+            - us-east-1f
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        preference:
+          matchExpressions:
+          - key: topology.kubernetes.io/zone
+            operator: NotIn # this is anti affinity, even weiaght is 100, not preferred
+            values:
+            - us-east-1d
+      - weight: 10 # weight is used to give preference to a node, higher the weight more the preference 1 t0 100 value on;y acceptable
+        preference:
+          matchExpressions:
+          - key: topology.kubernetes.io/zone
+            operator: In
+            values:
+            - us-east-1f
+  containers:
+  - name: nginx # container name
+    image: nginx # by default it will get from docker hub
