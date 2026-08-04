@@ -11,8 +11,8 @@ spec:
           - key: topology.kubernetes.io/zone
             operator: In
             values:
-            - us-east-1a
-            - us-east-1b
+            - us-east-1d
+            - us-east-1f
       preferredDuringSchedulingIgnoredDuringExecution:
       - weight: 100
         preference:
@@ -27,7 +27,7 @@ spec:
           - key: topology.kubernetes.io/zone
             operator: In
             values:
-            - us-east-1a
+            - us-east-1f
   containers:
   - name: nginx # container name
     image: nginx # by default it will get from docker hub
