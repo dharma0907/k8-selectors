@@ -5,7 +5,7 @@ metadata:
 spec:
   affinity:
     nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
+      requiredDuringSchedulingIgnoredDuringExecution: # this is used to force the pod, hard rule, if hard rule pass then check for soft rule, if hard rule fails then pod will not be scheduled
         nodeSelectorTerms:
         - matchExpressions:
           - key: topology.kubernetes.io/zone
@@ -21,7 +21,7 @@ spec:
             operator: In
             values:
             - us-east-1d
-      - weight: 100
+      - weight: 100 # weight is used to give preference to a node, higher the weight more the preference 1 t0 100 value on;y acceptable
         preference:
           matchExpressions:
           - key: topology.kubernetes.io/zone
