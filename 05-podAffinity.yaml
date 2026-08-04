@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-1
+  labels:
+    project: roboshop
+    tier: database # these labels are used to match with pod-2 affinity rule
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-2
+  labels:
+    project: roboshop
+    tier: backend
+spec:
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: tier
+            operator: In
+            values:
+            - database # these labels are same same as pod-1 labels, so pod-2 will be scheduled on same node as pod-1
+        topologyKey: topology.kubernetes.io/zone # border is AZ
+  containers:
+  - name: nginx
+    image: nginx
+    
