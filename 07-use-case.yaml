@@ -25,6 +25,7 @@ spec:
       containers:
       - name: redis-server
         image: redis:3.2-alpine
+# here 3 pods will sechdule in 3 different nodes because of antiaffinity rule.
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -62,3 +63,4 @@ spec:
       containers:
       - name: web-app
         image: nginx:1.16-alpine
+# here we are used affinity and antiaffinity as well, web-server 1 will sechdule in redid-1 pod node, we-server2 will sechdule in redis-2 pod node
